@@ -15,7 +15,7 @@ class PostHandler(val posts: PostRepository) {
 
 
     fun allView(req: ServerRequest): Mono<ServerResponse> {
-        return ok().render("index", "posts" to this.posts.findAll().collectList().block())
+        return ok().render("index", mapOf("posts" to this.posts.findAll().collectList().block()))
     }
 
     fun all(req: ServerRequest): Mono<ServerResponse> {
