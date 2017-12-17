@@ -1,0 +1,26 @@
+{{>header}}
+    <section class="container">
+        <div class="jumbotron">
+            <h1>Spring WebFlux And Kotlin example</h1>
+            <p class="lead">This example is a quick exercise to illustrate how to build a web application with Spring 5
+                reactive stack and Kotlin language.</p>
+            <a class="btn btn-lg btn-primary" href="https://github.com/hantsy/spring-webflux-kotlin-sample" role="button">Get it from Github</a>
+        </div>
+    </section>
+	<section class="container">
+        <div class="row">
+			{{#posts}}
+            <div class="col-md-4">
+			    <div class="card">
+				  <div class="card-body">
+					<h4 class="card-title">{{title}}</h4>
+					<h6 class="card-subtitle mb-2 text-muted">{{createdDate}}</h6>
+					<p class="card-text">{{content}}</p>
+					<a href="/posts/{{id}}" class="card-link">View Details</a>
+				  </div>
+				</div>
+			</div>
+			{{/posts}}
+        </div>
+    </section>
+{{>footer}}

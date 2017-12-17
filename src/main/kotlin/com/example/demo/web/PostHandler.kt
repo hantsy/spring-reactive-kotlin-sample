@@ -14,6 +14,10 @@ import java.time.Duration
 class PostHandler(val posts: PostRepository) {
 
 
+    fun allView(req: ServerRequest): Mono<ServerResponse> {
+        return ok().render("index", "posts" to this.posts.findAll().collectList().block())
+    }
+
     fun all(req: ServerRequest): Mono<ServerResponse> {
         return ok().body(this.posts.findAll(), Post::class.java)
     }

@@ -28,6 +28,10 @@ import org.springframework.web.server.WebFilter
 import org.springframework.web.server.WebHandler
 import java.util.*
 import com.samskivert.mustache.Mustache
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.web.server.session.HeaderWebSessionIdResolver
+import org.springframework.web.server.session.WebSessionIdResolver
 
 fun beans() = beans {
 
@@ -76,7 +80,7 @@ fun beans() = beans {
     }
 
     bean {
-        DataInitializr(ref(), ref())
+        DataInitializr(ref(), ref(), ref())
     }
 
     bean {
@@ -104,6 +108,7 @@ fun beans() = beans {
 
     bean<SecurityWebFilterChain> {
         ref<ServerHttpSecurity>().authorizeExchange()
+                .pathMatchers(HttpMethod.GET, "/").permitAll()
                 .pathMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                 .pathMatchers(HttpMethod.DELETE, "/api/posts/**").hasRole("ADMIN")
                 //.pathMatchers("/users/{user}/**").access(this::currentUserMatchesPath)
@@ -119,14 +124,23 @@ fun beans() = beans {
         }
     }
 
+    bean<PasswordEncoder>{
+        PasswordEncoderFactories.createDelegatingPasswordEncoder()
+    }
+
+    bean<WebSessionIdResolver>{
+        HeaderWebSessionIdResolver().apply {
+            headerName = "X-AUTH-TOKEN"
+        }
+    }
+
     bean {
         ReactiveUserDetailsService { username ->
             ref<UserRepository>()
                     .findByUsername(username)
                     .map { (_, username, password, active, roles) ->
                         org.springframework.security.core.userdetails.User
-                                .withDefaultPasswordEncoder()
-                                .username(username)
+                                .withUsername(username)
                                 .password(password)
                                 .accountExpired(!active)
                                 .accountLocked(!active)

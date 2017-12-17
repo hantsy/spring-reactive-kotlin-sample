@@ -11,22 +11,23 @@ class Routes(val postHandler: PostHandler) {
 
     fun router() = router {
         accept(MediaType.TEXT_HTML).nest {
-            GET("/") { ServerResponse.ok().render("index") }
-            GET("/sse") { ServerResponse.ok().render("sse") }
+            GET("/", postHandler::allView)
+            //GET("/sse") { ServerResponse.ok().render("sse") }
             //GET("/users", postHandler::findAllView)
         }
         "/api".nest {
-            accept(MediaType.APPLICATION_JSON).nest {
-                GET("/posts", postHandler::all)
-                GET("/posts/{id}", postHandler::get)
+            "/posts".nest {
+                accept(MediaType.APPLICATION_JSON).nest {
+                    GET("", postHandler::all)
+                    GET("/{id}", postHandler::get)
+                }
+                accept(MediaType.APPLICATION_STREAM_JSON).nest {
+                    GET("", postHandler::stream)
+                }
+                POST("", postHandler::create)
+                PUT("{id}", postHandler::update)
+                DELETE("/{id}", postHandler::delete)
             }
-            accept(MediaType.TEXT_EVENT_STREAM).nest {
-                GET("/posts", postHandler::stream)
-            }
-            POST("/posts", postHandler::create)
-            PUT("/posts/{id}", postHandler::update)
-            DELETE("/posts/{id}", postHandler::delete)
-
         }
         resources("/**", ClassPathResource("static/"))
     }
