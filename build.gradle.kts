@@ -76,6 +76,7 @@ dependencies {
     }
     compile("com.fasterxml.jackson.core:jackson-databind")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
 
     compile("io.netty:netty-buffer")
@@ -108,7 +109,7 @@ dependencies {
     }
     testCompile("io.projectreactor:reactor-test")
     testCompile("org.springframework.security:spring-security-test")
-    testCompile("org.junit.jupiter:junit-jupiter-api:5.0.0")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0")
-    testRuntime("org.junit.platform:junit-platform-launcher:1.0.0")
+    testCompile("org.junit.jupiter:junit-jupiter-api")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine")
+   // testRuntime("org.junit.platform:junit-platform-launcher:1.0.0")
 }
