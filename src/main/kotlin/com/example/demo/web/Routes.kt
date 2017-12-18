@@ -24,6 +24,9 @@ class Routes(val postHandler: PostHandler) {
                 accept(MediaType.APPLICATION_STREAM_JSON).nest {
                     GET("", postHandler::stream)
                 }
+                accept(MediaType.TEXT_EVENT_STREAM).nest {
+                    GET("", postHandler::sse)
+                }
                 POST("", postHandler::create)
                 PUT("{id}", postHandler::update)
                 DELETE("/{id}", postHandler::delete)

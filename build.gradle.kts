@@ -5,11 +5,11 @@ import org.jetbrains.kotlin.noarg.gradle.NoArgExtension
 
 plugins {
     application
-    id("org.jetbrains.kotlin.jvm") version "1.1.61"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.1.61"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.1.61"
+    id("org.jetbrains.kotlin.jvm") version "1.2.10"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.2.10"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.2.10"
     id("com.github.johnrengelman.shadow") version "2.0.1"
-    id("io.spring.dependency-management") version "1.0.3.RELEASE"
+    id("io.spring.dependency-management") version "1.0.4.RELEASE"
     id("org.junit.platform.gradle.plugin") version "1.0.2"
 }
 
@@ -36,7 +36,7 @@ application {
 
 version = "1.0.0-SNAPSHOT"
 
-val kotlinVersion = "1.1.61"
+val kotlinVersion = "1.2.10"
 val springBootVersion = "2.0.0.M7"
 
 // https://spring.io/blog/2016/12/16/dependency-management-plugin-1-0-0-rc1

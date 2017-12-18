@@ -52,8 +52,23 @@ class IntegrationTests {
                 .test()
                 .expectNextMatches { it.title == "Post one" && it.content == "content of Post one" && it.createdDate.isBefore(LocalDateTime.now()) }
                 .expectNextMatches { it.title == "Post two" && it.content == "content of Post two" && it.createdDate.isBefore(LocalDateTime.now()) }
-                //.expectNextMatches { it.title == "Post one" && it.content == "content of Post one" && it.createdDate.isBefore(LocalDateTime.now()) }
-                //.expectNextMatches { it.title == "Post two" && it.content == "content of Post two" && it.createdDate.isBefore(LocalDateTime.now()) }
+                .expectNextMatches { it.title == "Post one" && it.content == "content of Post one" && it.createdDate.isBefore(LocalDateTime.now()) }
+                .expectNextMatches { it.title == "Post two" && it.content == "content of Post two" && it.createdDate.isBefore(LocalDateTime.now()) }
+                .thenCancel()
+                .verify()
+    }
+
+    @Test
+    fun `Receive a stream of posts via SSE `() {
+        client.get().uri("/api/posts")
+                .accept(TEXT_EVENT_STREAM)
+                .retrieve()
+                .bodyToFlux<Post>()
+                .test()
+                .expectNextMatches { it.title == "Post one" && it.content == "content of Post one" && it.createdDate.isBefore(LocalDateTime.now()) }
+                .expectNextMatches { it.title == "Post two" && it.content == "content of Post two" && it.createdDate.isBefore(LocalDateTime.now()) }
+                .expectNextMatches { it.title == "Post one" && it.content == "content of Post one" && it.createdDate.isBefore(LocalDateTime.now()) }
+                .expectNextMatches { it.title == "Post two" && it.content == "content of Post two" && it.createdDate.isBefore(LocalDateTime.now()) }
                 .thenCancel()
                 .verify()
     }

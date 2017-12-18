@@ -3,9 +3,12 @@ package com.example.demo.web
 import com.example.demo.Post
 import com.example.demo.PostRepository
 import org.springframework.http.MediaType
+import org.springframework.http.MediaType.APPLICATION_STREAM_JSON
+import org.springframework.http.MediaType.TEXT_EVENT_STREAM
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.*
+import org.springframework.web.reactive.function.server.bodyToServerSentEvents
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.net.URI
@@ -23,15 +26,20 @@ class PostHandler(val posts: PostRepository) {
     }
 
     fun stream(req: ServerRequest): Mono<ServerResponse> {
-        val postStream = Flux
-                .zip(Flux.interval(Duration.ofSeconds(1)), this.posts.findAll())
-                .map { it.t2 }
         return ok()
-                .contentType(MediaType.TEXT_EVENT_STREAM)
+                .contentType(APPLICATION_STREAM_JSON)
                 .body(
-                        postStream,
+                        Flux.interval(Duration.ofSeconds(1))
+                                .flatMap { this.posts.findAll() },
                         Post::class.java
                 )
+    }
+
+    fun sse(req: ServerRequest): Mono<ServerResponse> {
+        val postStream = Flux
+                .zip(Flux.interval(Duration.ofSeconds(1)), this.posts.findAll().repeat())
+                .map { it.t2 }
+        return ok().bodyToServerSentEvents(postStream)
     }
 
     fun create(req: ServerRequest): Mono<ServerResponse> {
