@@ -92,6 +92,9 @@ dependencies {
     compile("org.springframework.data:spring-data-mongodb")
     compile("org.mongodb:mongodb-driver-reactivestreams")
 
+    //spring Session
+    compile("org.springframework.session:spring-session-core")
+
     //kotlin
     compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion")
     compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
