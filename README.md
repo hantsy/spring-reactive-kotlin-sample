@@ -26,7 +26,13 @@ The following features are included:
 
         docker-compose up mongodb
 
-3. Run `Application.kt` in IDE directly. Or open command line terminal and switch to the root directory of this project, execute `gradlew build`, when it is done, there is a `XXX-all.jar` in the *build/lib* folder. Execute `java -jar XXX-all.jar` to start the application.
+3. Run `Application.kt` in IDE directly. 
+
+   Or open terminal and follow the steps.
+   * Switch to the root directory of this project
+   * Run command `gradlew build` to build the project
+   * When it is done, you will find there is a `XXX-all.jar` in the *build/lib* folder.
+   * Execute `java -jar XXX-all.jar` to start the application.
 
 ## Contribute 
 
